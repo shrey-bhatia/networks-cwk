@@ -63,8 +63,8 @@ public class Server {
 				if (request.equals("list")) {
 					handleListRequest(out);
 					logRequest(getCurrentTimestamp(), clientSocket.getInetAddress().getHostAddress(), "list");
-				} else if (request.equals("put")) {
-					handlePutRequest(in, out);
+				} else if (request.startsWith("put ")) {
+					handlePutRequest(in, out, request.substring(4)); // Pass the filename to handlePutRequest
 				} else {
 					out.println("Error: Invalid request");
 				}
@@ -91,15 +91,14 @@ public class Server {
 			}
 		}
 
-		private void handlePutRequest(BufferedReader in, PrintWriter out) throws IOException {
-			String filename = in.readLine().substring(4); // Remove "put " prefix
+		private void handlePutRequest(BufferedReader in, PrintWriter out, String filename) throws IOException {
 			File file = new File(serverFilesDir, filename);
 
 			if (file.exists()) {
 				out.println("Error: Cannot upload file '" + filename + "'; already exists on server.");
 			} else {
 				out.println("Uploading file '" + filename + "'");
-				file.createNewFile(); // Result of 'File.createNewFile()' is ignored
+				file.createNewFile();
 
 				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 				String line;
