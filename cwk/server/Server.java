@@ -13,6 +13,8 @@ public class Server {
 
 		try (ServerSocket serverSocket = new ServerSocket(PORT)) {
 			System.out.println("Server started on port " + PORT);
+			//TODO: Remove the above print statement for submission
+			System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
 			while (true) {
 				Socket clientSocket = serverSocket.accept();
