@@ -35,6 +35,10 @@ public class Server {
 
         public ClientHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
+            // Create the serverFiles directory if it doesn't exist
+            if (!serverFilesDir.exists()) {
+                serverFilesDir.mkdir();
+            }
         }
 
         private static String getCurrentTimestamp() {
