@@ -14,9 +14,9 @@ public class Server {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Server started on port " + PORT);
-            //TODO: Remove the above print statement for submission
-            System.out.println("Current working directory: " + System.getProperty("user.dir"));
+            //System.out.println("Server started on port " + PORT);
+            //System.out.println("Current working directory: " + System.getProperty("user.dir"));
+            //TODO: Remove the above print statements for submission
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();

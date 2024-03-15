@@ -1,5 +1,5 @@
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
 public class Client {
 	public static void main(String[] args) {
@@ -64,7 +64,7 @@ public class Client {
 		try {
 			File file = new File(filename);
 			if (!file.exists()) {
-				System.err.println("Error: Cannot open local file '" + filename + "' for reading.");
+				System.out.println("Error: Cannot open local file '" + filename + "' for reading.");
 				return;
 			}
 
