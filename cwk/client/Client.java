@@ -64,7 +64,7 @@ public class Client {
 		try {
 			File file = new File(filename);
 			if (!file.exists()) {
-				System.out.println("Error: Cannot open local file '" + filename + "' for reading.");
+				System.err.println("Error: Cannot open local file '" + filename + "' for reading.");
 				return;
 			}
 
