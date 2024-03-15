@@ -31,13 +31,16 @@ public class Server {
 
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
-        private final File serverFilesDir = new File("serverFiles");
+        private final File serverFilesDir;
 
         public ClientHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
+            String serverFilesDirPath = System.getProperty("user.dir") + "/cwk/server/serverFiles";
+            this.serverFilesDir = new File(serverFilesDirPath);
+
             // Create the serverFiles directory if it doesn't exist
-            if (!serverFilesDir.exists()) {
-                serverFilesDir.mkdir();
+            if (!serverFilesDir.exists() && !serverFilesDir.mkdir()) {
+                System.err.println("Failed to create serverFiles directory");
             }
         }
 
@@ -50,8 +53,9 @@ public class Server {
                 // Get the path of the directory containing Server.java
                 String serverDir = System.getProperty("user.dir") + "/cwk/server";
                 File logFile = new File(serverDir, "log.txt");
-                if (!logFile.exists()) {
-                    logFile.createNewFile();
+                if (!logFile.exists() && !logFile.createNewFile()) {
+                    System.err.println("Failed to create log file");
+                    return;
                 }
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
@@ -108,7 +112,10 @@ public class Server {
                 out.println("Error: Cannot upload file '" + filename + "'; already exists on server.");
             } else {
                 out.println("Uploading file '" + filename + "'");
-                file.createNewFile();
+                if (!file.createNewFile()) {
+                    out.println("Error: Failed to create file '" + filename + "' on server.");
+                    return;
+                }
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 String line;
