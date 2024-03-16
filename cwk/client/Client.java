@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class Client {
+	// sets up a connection to the server
 	public static void main(String[] args) {
 		if (args.length != 1 && args.length != 2) {
 			System.err.println("Usage: java Client <command> [filename]");
@@ -13,7 +14,7 @@ public class Client {
 		String filename = (args.length == 2) ? args[1] : null;
 
 		try {
-			Socket socket = new Socket("localhost", 9100); // Replace 9100 with the desired port number
+			Socket socket = new Socket("localhost", 9100); // replace 9100 with the port number
 
 			switch (command) {
 				case "list":
@@ -37,6 +38,7 @@ public class Client {
 		}
 	}
 
+	// asks server to list which files it has, and reads server responses
 	private static void handleListCommand(Socket socket) {
 		try {
 			// Send the "list" request to the server
@@ -60,6 +62,7 @@ public class Client {
 		}
 	}
 
+	//  sends the file to the server and reads server responses
 	private static void handlePutCommand(Socket socket, String filename) {
 		try {
 			File file = new File(filename);

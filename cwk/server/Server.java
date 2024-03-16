@@ -10,13 +10,13 @@ public class Server {
     private static final int THREAD_POOL_SIZE = 20;
     private static final int PORT = 9100; // Replace with the desired port number
 
+    // sets up a server that listens for connections from clients
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             //System.out.println("Server started on port " + PORT);
             //System.out.println("Current working directory: " + System.getProperty("user.dir"));
-            //TODO: Remove the above print statements for submission
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -25,7 +25,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            executorService.shutdown(); // Add this line to shut down the ExecutorService
+            executorService.shutdown(); // shut down the ExecutorService
         }
     }
 
@@ -48,6 +48,7 @@ public class Server {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         }
 
+        // Logs the request to server/log.txt
         private void logRequest(String timestamp, String clientIP, String request) {
             try {
                 // Get the path of the directory containing Server.java
@@ -68,6 +69,7 @@ public class Server {
         }
 
         @Override
+        // runs the runnable
         public void run() {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -93,6 +95,7 @@ public class Server {
             }
         }
 
+        // Handles the "list" request from the client
         private void handleListRequest(PrintWriter out) {
             File[] files = serverFilesDir.listFiles();
             if (files != null) {
@@ -105,6 +108,7 @@ public class Server {
             }
         }
 
+        // Handles the "put" request from the client
         private void handlePutRequest(BufferedReader in, PrintWriter out, String filename) throws IOException {
             File file = new File(serverFilesDir, filename);
 
